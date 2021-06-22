@@ -1,8 +1,8 @@
 name: Setup base Linux images
 on: 
   release:
-    types: [published]
-#  push
+    types: [released]
+  pull_request:
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
           build-args: |
             r_version=${{ matrix.r_version }}
             os_version=${{ matrix.os_version }}
-          push: true
+          push: ${{ github.event_name == 'release' }}
           tags: |
             ghcr.io/open-systems-pharmacology/base-r${{ matrix.r_version }}-${{ matrix.os_version }}:${{ steps.tag_name.outputs.SOURCE_TAG}}
             ghcr.io/open-systems-pharmacology/base-r${{ matrix.r_version }}-${{ matrix.os_version }}:latest
